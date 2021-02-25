@@ -81,7 +81,7 @@ exports.likeSauce = (req, res, next) => {
                 tabLikes = JSON.parse(newSauce.usersLiked);
                 while(i < tabLikes.length) {
                     if(tabLikes[i] == user_id) { 
-                        if(type_like == 0 || type_like == -1) { 
+                        if(type_like == 0 || type_like == -1) { // Delete userid into 'usersLikes' if cancel/dislike
                             tabLikes.splice(i, 1); 
                             newSauce.likes --;
                         }
@@ -94,7 +94,7 @@ exports.likeSauce = (req, res, next) => {
                 tabDislikes = JSON.parse(newSauce.usersDisliked); i = 0;
                 while(i < tabDislikes.length) {
                     if(tabDislikes[i] == user_id) { 
-                        if(type_like == 0 || type_like == 1) { 
+                        if(type_like == 0 || type_like == 1) { // Delete userid into 'usersDislikes' if cancel/like
                             tabDislikes.splice(i, 1); 
                             newSauce.dislikes --;
                         }
