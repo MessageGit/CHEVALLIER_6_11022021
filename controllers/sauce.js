@@ -70,10 +70,58 @@ exports.deleteSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
     sauce.findOne({ _id: req.params.id })
         .then(newSauce => {
+            let i = 0;
+            let tabLikes = []; let tabDislikes = [];
+            let already_liked = 0; let already_disliked = 0;
+            let type_like = req.body.like;
+            let user_id = req.body.userId;
 
-            let myvar = JSON.parse(newSauce.usersLiked);
-            myvar.push('test_2');
-            console.log(myvar + ' / ' + JSON.stringify(myvar));
+            // Check if user already (dis)liked this
+            if(newSauce.usersLiked) {
+                tabLikes = JSON.parse(newSauce.usersLiked);
+                while(i < tabLikes.length) {
+                    if(tabLikes[i] == user_id) { 
+                        if(type_like == 0 || type_like == -1) { 
+                            tabLikes.splice(i, 1); 
+                            newSauce.likes --;
+                        }
+                        already_liked = 1;
+                    }
+                    i ++;
+                }
+            }
+            if(newSauce.usersDisliked) {
+                tabDislikes = JSON.parse(newSauce.usersDisliked); i = 0;
+                while(i < tabDislikes.length) {
+                    if(tabDislikes[i] == user_id) { 
+                        if(type_like == 0 || type_like == 1) { 
+                            tabDislikes.splice(i, 1); 
+                            newSauce.dislikes --;
+                        }
+                        already_disliked = 1;
+                    }
+                    i ++;
+                }
+            }
+
+            // Add (dis)like
+            if(type_like == 1 && already_liked == 0) {
+                tabLikes.push(user_id);
+                newSauce.likes ++; 
+            }
+            if(type_like == -1 && already_disliked == 0) {
+                tabDislikes.push(user_id);
+                newSauce.dislikes ++; 
+            }
+
+            sauce.updateOne({ _id: req.params.id }, { 
+                    likes: newSauce.likes, 
+                    dislikes: newSauce.dislikes, 
+                    usersLiked: JSON.stringify(tabLikes), 
+                    usersDisliked: JSON.stringify(tabDislikes)
+                })
+                .then(() => res.status(200).json({ message: 'Updated ! '}))
+                .catch(error => res.status(400).json({ error }));
 
         })
         .catch(error => res.status(500).json({ error }));
