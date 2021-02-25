@@ -70,52 +70,11 @@ exports.deleteSauce = (req, res, next) => {
 exports.likeSauce = (req, res, next) => {
     sauce.findOne({ _id: req.params.id })
         .then(newSauce => {
-            let i = 0;
-            let already_liked = 0;
-            let already_disliked = 0;
-            let type_like = req.body.like;
-            let user_id = req.body.userId;
 
-            // Check if user already (dis)liked this
-            let tabLikes = newSauce.usersLiked.split(',');
-            while(i < tabLikes.length) {
-                if(tabLikes[i] == user_id) { already_liked = 1; }
-                i ++;
-            }
-            let tabDislikes = newSauce.usersDisliked.split(','); i = 0;
-            while(i < tabDislikes.length) {
-                if(tabDislikes[i] == user_id) { already_disliked = 1; }
-                i ++;
-            }
+            let myvar = JSON.parse(newSauce.usersLiked);
+            myvar.push('test_2');
+            console.log(myvar + ' / ' + JSON.stringify(myvar));
 
-            // Add (dis)like
-            if(type_like == 1 && already_liked == 0) {
-                newSauce.usersLiked += user_id + ',';
-                newSauce.likes ++; 
-            }
-            if(type_like == -1 && already_disliked == 0) {
-                newSauce.usersDisliked += user_id + ',';
-                newSauce.dislikes ++; 
-            }
-
-            // This user has already (dis)liked this product
-            if(already_disliked == 1) {
-                newSauce.usersDisliked = newSauce.usersDisliked.replace(user_id + ',', '');
-                newSauce.dislikes --;
-            }
-            if(already_liked == 1) {
-                newSauce.usersLiked = newSauce.usersLiked.replace(user_id + ',', '');
-                newSauce.likes --;
-            }
-
-            sauce.updateOne({ _id: req.params.id }, { 
-                    likes: newSauce.likes, 
-                    dislikes: newSauce.dislikes, 
-                    usersLiked: newSauce.usersLiked, 
-                    usersDisliked: newSauce.usersDisliked
-                })
-                .then(() => res.status(200).json({ message: 'Updated ! '}))
-                .catch(error => res.status(400).json({ error }));
         })
         .catch(error => res.status(500).json({ error }));
 }; 
