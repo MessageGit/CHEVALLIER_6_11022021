@@ -9,7 +9,7 @@ $ cd ./frontend<br />
 $ ng serve<br />
 #### Lancement du serveur Node
 $ cd ./backend<br />
-$ cd node server
+$ node server
 <br /><br />
 ## Technologies utilisées
 - Node.JS / Express / MongoDB<br />
