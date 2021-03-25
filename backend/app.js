@@ -3,10 +3,14 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 
+// Load env variables
+require('dotenv').config()
+const db = process.env;
+
 const userRoutes = require('./routes/user');
 const sauceRoutes = require('./routes/sauce');
 
-mongoose.connect('mongodb+srv://user-2:fakepassword@db-cluster.xqijt.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://' + db.USER_DB + ':' + db.PASS_DB + '@' + db.CLUSTER_DB + '/' + db.NAME_DB + '?retryWrites=true&w=majority',
     { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => console.log('Connexion à MongoDB réussie !'))
     .catch(() => console.log('Connexion à MongoDB échouée !'));
