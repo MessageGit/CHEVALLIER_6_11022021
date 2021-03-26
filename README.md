@@ -13,7 +13,7 @@ $ node server
 <br /><br />
 ## Technologies utilisées
 - Node.JS / Express / MongoDB<br />
-- Packages: Multer, JsonWebTokens & Bcrypt
+- Packages: Multer, JsonWebTokens, email-validator, dotenv & Bcrypt
 <br /><br />
 ## Compétences mobilisées:
 - Conception d'une API tenant compte des réglementations en vigueur de l'OWASP/RGPD.<br />
