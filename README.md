@@ -1,4 +1,5 @@
-# Piquante - Réalisation d'une API Node/Express/NoSQL
+# Piquante - Réalisation d'une API
+<font style="font-size: 18px;"><b>Projet n°6 OpenClassroom | Réalisation back-end </b></font><br />
 ## Execution
 La partie front de ce projet a été généré avec <b>Angular CLI version 7.0.2.</b><br />
 Les commandes suivantes sont à effectuer depuis le dossier racine du projet.<br /><br />
